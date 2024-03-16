@@ -1,0 +1,261 @@
+Table: blacklist	Remarks: 黑名单表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ user_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 用户id 从用户表获得
+ state        | TINYINT UNSIGNED(3) | NO   |     |                   | 拉黑状态 0-未拉黑；1-已拉黑
+ reason       | VARCHAR(255)        | NO   |     |                   | 拉黑原因 用户被拉黑的原因
+ admin_id     | BIGINT UNSIGNED(20) | NO   |     |                   | 拉黑人id   
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: card	Remarks: 银行卡表 
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time  | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time  | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ card_number   | VARCHAR(128)        | NO   |     |                   | 银行卡号    
+ card_password | VARCHAR(128)        | NO   |     |                   | 银行卡密码   
+ balance       | FLOAT(12)           | NO   |     | 100000            | 银行卡余额   
+---------------+---------------------+------+-----+-------------------+---------
+
+Table: community	Remarks: 模板社区表 
+--------------+----------------------+------+-----+-------------------+---------
+ Field        | Type                 | Null | Key | Default           | Remarks 
+--------------+----------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20)  | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)        | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)        | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3)  | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ user_id      | BIGINT UNSIGNED(20)  | NO   |     |                   | 配置人员id 发布模板的配置人员id
+ json_chart   | JSON(1073741824)     | NO   |     |                   | json数据 储存前端传来的流程图json数据
+ name         | VARCHAR(128)         | NO   |     |                   | 模板名称 模板名称
+ content      | VARCHAR(255)         | NO   |     |                   | 模板介绍 模板介绍即产品介绍
+ img_id       | BIGINT UNSIGNED(20)  | YES  |     |                   | 图片主键    
+ img          | LONGTEXT(2147483647) | YES  |     |                   | 图片base64数据方式
+ praise       | INT(10)              | NO   |     | 0                 | 点赞量 该模板被点赞的次数，取消点赞会减1
+ collect      | INT(10)              | NO   |     | 0                 | 收藏量 该模板被收藏的次数，取消收藏会减1
+ cover        | BIGINT UNSIGNED(20)  | NO   |     |                   | 模板封面图片  
+--------------+----------------------+------+-----+-------------------+---------
+
+Table: feedback	Remarks: 反馈表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ user_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 反馈人id   
+ object_id    | BIGINT UNSIGNED(20) | NO   |     |                   | 反馈对象id 用户反馈的是产品ID，配置人员反馈的是配置人员id，管理员反馈的也是配置人员id
+ content      | VARCHAR(255)        | NO   |     |                   | 反馈内容 反馈的具体内容
+ type         | TINYINT UNSIGNED(3) | NO   |     |                   | 反馈类型 0-用户向配置人员反馈；1-配置人员向管理员反馈；2-管理员给配置人员发消息
+ status       | TINYINT UNSIGNED(3) | NO   |     | 0                 | 反馈信息状态 0-未查看/配置人员未读，1-正在解决/配置人员已读，2-已解决（自动跳转到发布公告页面）3.管理员进行删除
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: file	Remarks: 文件表 存储上传的文件的基本信息
+----------------+---------------------+------+-----+-------------------+---------
+ Field          | Type                | Null | Key | Default           | Remarks 
+----------------+---------------------+------+-----+-------------------+---------
+ id             | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted     | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ saved_path     | VARCHAR(255)        | NO   |     |                   | 文件存储地址 记录文件在服务器上面存储的地址
+ new_name       | VARCHAR(128)        | NO   |     |                   | 文件新名称 一般我们会对上传的文件重新命名，重新命名之后的名称需要存储
+ original_name  | VARCHAR(128)        | YES  |     |                   | 文件初始名 记录文件在上传的时候最初的名称
+ url            | VARCHAR(128)        | YES  |     |                   | 文件远程存储地址 如果文件从远程服务器上面获得的话就需要有该地址
+ download_times | INT(10)             | YES  |     | 0                 | 文件下载次数 记录文件的下载次数，方便进行一些统计
+ size           | BIGINT(19)          | YES  |     | 0                 | 文件大小 单位:b
+ source         | TINYINT UNSIGNED(3) | YES  |     |                   | 文件来源 文件来源 1-IM 2-其他
+ type           | TINYINT UNSIGNED(3) | YES  |     |                   | 文件类型 文件类型 1-文本文件 2-图片文件 3-音频文件 4-视频文件 5-其他文件
+ suffix         | VARCHAR(128)        | YES  |     |                   | 文件后缀名 后缀名为jpg/png等，无.
+----------------+---------------------+------+-----+-------------------+---------
+
+Table: graph	Remarks: 流程图表 
+--------------+----------------------+------+-----+-------------------+---------
+ Field        | Type                 | Null | Key | Default           | Remarks 
+--------------+----------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20)  | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)        | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)        | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3)  | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ product_id   | BIGINT UNSIGNED(20)  | NO   |     |                   | 产品id 从产品表中获取产品id
+ json_chart   | JSON(1073741824)     | YES  |     |                   | json数据 储存前端传来的流程图json数据
+ deal_json    | JSON(1073741824)     | YES  |     |                   | json数据 储存处理前端传来的流程图json数据，便于后续流程判断
+ user_id      | BIGINT UNSIGNED(20)  | NO   |     |                   | 配置人员id 对应用户表中配置人员id，创建该流程图的配置人员
+ img          | LONGTEXT(2147483647) | YES  |     |                   | 图片base64数据方式
+--------------+----------------------+------+-----+-------------------+---------
+
+Table: graph_like	Remarks: 流程图点赞收藏表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ graph_id     | BIGINT UNSIGNED(20) | NO   |     |                   | 模板id 从community表中获取模板id
+ user_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 配置人员id 从user表中获取
+ type         | TINYINT UNSIGNED(3) | YES  |     |                   | 区分点赞和收藏 0-点赞；1-收藏
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: operator_information	Remarks: 配置人员个人信息表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ user_id      | BIGINT UNSIGNED(20) | NO   |     |                   | 配置人员id 记录配置人员id，对应用户表中配置人员id
+ name         | VARCHAR(50)         | NO   |     |                   | 真实姓名 真实姓名记录
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: product_detail	Remarks: 产品基本属性表 
+----------------+---------------------+------+-----+-------------------+---------
+ Field          | Type                | Null | Key | Default           | Remarks 
+----------------+---------------------+------+-----+-------------------+---------
+ id             | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ user_id        | BIGINT UNSIGNED(20) | NO   |     |                   | 从用户表中获取配置人员id
+ created_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted     | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ number         | VARCHAR(255)        | YES  |     |                   | 产品编号 产品编号根据主键id加密得到
+ name           | VARCHAR(128)        | NO   |     |                   | 产品名称 产品名称
+ introduction   | VARCHAR(255)        | YES  |     |                   | 产品介绍 产品介绍
+ term           | INT(10)             | NO   |     |                   | 产品期限 以“天”为单位，活期存款的期限为-1
+ annual_rate    | FLOAT(12)           | NO   |     |                   | 年化利率 年化利率
+ initial_money  | FLOAT(12)           | NO   |     |                   | 起存金额 起存金额
+ increase_money | FLOAT(12)           | NO   |     |                   | 递增金额 递增金额
+ personal_limit | FLOAT(12)           | NO   |     |                   | 单人限额 单人限额
+ daily_limit    | FLOAT(12)           | NO   |     |                   | 单日限额 单日限额
+ risk_id        | BIGINT UNSIGNED(20) | NO   |     |                   | 风险等级id 在系统配置表中获取 1-极低；2-低；3-中等；4-较高；5-高
+ interest_way   | TINYINT UNSIGNED(3) | NO   |     |                   | 结息方式 0-到期付息；1-按月付息；2-按年付息；3-按季付息
+ amount         | INT(10)             | NO   |     |                   | 库存量 库存量 
+ available      | INT(10)             | NO   |     |                   | 可购买量 可购买量
+ sale           | INT(10)             | NO   |     | 0                 | 销售量 销售量 
+ status         | TINYINT UNSIGNED(3) | NO   |     | 0                 | 产品状态 0-未发布；1-已提交管理员审核；2-已发布
+ publish_day    | TIMESTAMP(19)       | YES  |     | CURRENT_TIMESTAMP | 产品正式发布日期 发布日
+ region         | VARCHAR(50)         | NO   |     | null              | 省名称,用于地域控制
+ type           | TINYINT UNSIGNED(3) | NO   |     |                   | 存款类型 0-通知存款；1-定期存款
+ operator_cover | BIGINT UNSIGNED(20) | NO   |     |                   | 存款产品配置人员封面图
+ user_cover     | BIGINT UNSIGNED(20) | NO   |     |                   | 存款产品用户封面图
+----------------+---------------------+------+-----+-------------------+---------
+
+Table: product_user	Remarks: 用户产品关系表 
+----------------+---------------------+------+-----+-------------------+---------
+ Field          | Type                | Null | Key | Default           | Remarks 
+----------------+---------------------+------+-----+-------------------+---------
+ id             | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间（订单生成时间）
+ updated_time   | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间（付款时间即日志生成时间)
+ is_deleted     | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ product_id     | BIGINT UNSIGNED(20) | NO   |     |                   | 产品id    
+ user_id        | BIGINT UNSIGNED(20) | NO   |     |                   | 用户id    
+ amount         | FLOAT(12)           | NO   |     |                   | 购买金额 购买金额
+ type           | TINYINT UNSIGNED(3) | NO   |     | 0                 | 关系类型 0-购买未完成；1-购买已完成
+ interest_start | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 起息日     
+ end_day        | TIMESTAMP(19)       | YES  |     | CURRENT_TIMESTAMP | 到期日     
+----------------+---------------------+------+-----+-------------------+---------
+
+Table: session	Remarks: 用户登录token信息表 存储用户的登录token信息
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ uuid         | BIGINT UNSIGNED(20) | NO   |     |                   | uuid 标识该token所属的对象
+ access_token | VARCHAR(50)         | NO   |     |                   | access_token 存储用户的token信息
+ expires_in   | BIGINT UNSIGNED(20) | YES  |     |                   | 有效时间 session有效时间 单位s，0表示永久有效
+ expires_time | BIGINT UNSIGNED(20) | YES  |     |                   | 过期时间 session过期时间 0表示永久有效，否则为session过期时间
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: sys_config	Remarks: 系统配置表  
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键      
+ code         | VARCHAR(50)         | NO   |     |                   | 编码      
+ name         | VARCHAR(50)         | NO   |     |                   | 名称      
+ value        | VARCHAR(128)        | NO   |     |                   | 数据值     
+ remark       | VARCHAR(255)        | YES  |     |                   | 备注      
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-未删除 1-已删除
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: team	Remarks: 团队表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ leader       | BIGINT UNSIGNED(20) | NO   |     |                   | 团队组长主键  
+ name         | VARCHAR(50)         | NO   |     |                   | 团队名称    
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: team_member	Remarks: 配置人员个人信息表 
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ team         | BIGINT UNSIGNED(20) | NO   |     |                   | 所属团队主键  
+ member       | BIGINT UNSIGNED(20) | NO   |     |                   | 配置人员主键  
+ position     | TINYINT UNSIGNED(3) | NO   |     |                   | 配置人员职位 1-产品开发部部长；2-产品组长；3-组员
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: user	Remarks: 用户表 用来存储用户的基本信息
+--------------+---------------------+------+-----+-------------------+---------
+ Field        | Type                | Null | Key | Default           | Remarks 
+--------------+---------------------+------+-----+-------------------+---------
+ id           | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ created_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted   | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+ type         | TINYINT UNSIGNED(3) | NO   |     |                   | 用户类型 0-测试用户；1-管理员；2-银行配置人员；3-用户
+ password     | VARCHAR(255)        | NO   |     |                   | 登录密码 记录登录密码，管理员和银行配置人员的默认密码为123456
+ salt         | VARCHAR(128)        | NO   |     |                   | 加密盐 存储的是密码加密的时候需要的加密盐
+ telephone    | VARCHAR(50)         | YES  |     |                   | 手机号码 记录联系方式，用户登录的账号，管理员与配置人员此字段可空
+ number       | VARCHAR(50)         | YES  |     |                   | 工号 管理员与配置人员用工号登录，用户此字段可以为空
+ icon_id      | BIGINT UNSIGNED(20) | YES  |     |                   | 头像图片id  
+--------------+---------------------+------+-----+-------------------+---------
+
+Table: user_information	Remarks: 用户个人信息表 
+---------------+---------------------+------+-----+-------------------+---------
+ Field         | Type                | Null | Key | Default           | Remarks 
+---------------+---------------------+------+-----+-------------------+---------
+ id            | BIGINT UNSIGNED(20) | NO   | PRI |                   | 主键 自增主键 
+ user_id       | BIGINT UNSIGNED(20) | NO   |     |                   | 用户id 记录用户id，对应用户表中用户id
+ name          | VARCHAR(50)         | NO   |     |                   | 真实姓名 记录用户姓名
+ number        | VARCHAR(128)        | NO   |     |                   | 身份证号 记录用户身份证号
+ gender        | TINYINT UNSIGNED(3) | NO   |     |                   | 性别 0-男；1-女
+ nation        | VARCHAR(50)         | NO   |     |                   | 民族 记录用户的民族
+ birth         | TIMESTAMP(19)       | NO   |     |                   | 出生日期 用户出生日期
+ address       | VARCHAR(255)        | NO   |     |                   | 住址 用户住址 
+ card_number   | VARCHAR(128)        | YES  |     |                   | 银行卡号 用户银行卡号
+ card_password | VARCHAR(128)        | YES  |     |                   | 银行卡密码 用户银行卡密码
+ tag_id        | BIGINT UNSIGNED(20) | NO   |     | 0                 | 用户标签id 1-保守型；2-稳健型；3-平衡型；4-成长型；5-进取型
+ authority     | VARCHAR(128)        | NO   |     |                   | 身份证签发机关 身份证反面识别
+ sign_date     | TIMESTAMP(19)       | NO   |     |                   | 身份证签发日期 身份证反面识别
+ final_date    | TIMESTAMP(19)       | NO   |     |                   | 身份证到期日期 身份证反面识别
+ head_photo    | TEXT(65535)         | NO   |     |                   | 身份证头像照片，以base64 编码存储
+ newly_head    | BIGINT UNSIGNED(20) | YES  |     |                   | 用户注册时上传拍摄的照片id
+ created_time  | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 创建时间 创建时间
+ updated_time  | TIMESTAMP(19)       | NO   |     | CURRENT_TIMESTAMP | 更新时间 更新时间
+ is_deleted    | TINYINT UNSIGNED(3) | NO   |     | 0                 | 是否删除 0-没有删除；1-已经删除
+---------------+---------------------+------+-----+-------------------+---------
+
